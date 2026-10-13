@@ -12,7 +12,7 @@
 	},
 	"blockTypes": [
 		{
-			"slug": "marketing_document",
+			"slug": "marketing_documents",
 			"label": "Document",
 			"description": "Une carte avec un titre, une description et un lien vers un document",
 			"category": "Marketing",
