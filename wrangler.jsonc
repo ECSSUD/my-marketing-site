@@ -7,13 +7,13 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "my-marketing-site","database_id": "16b10648-f5f0-492b-8498-bfb41523c5c5",
+			"database_name": "my-marketing-site","database_id": "003d7819-b8eb-4d90-b479-f820eb75dd68",
 		},
 	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			"bucket_name": "my-marketing-media","preview_bucket_name": "my-marketing-media",
+			"bucket_name": "media","preview_bucket_name": "media",
 		},
 	],
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
