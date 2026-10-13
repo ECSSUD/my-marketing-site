@@ -3,7 +3,7 @@ import { getEmDashEntry, getSeoMeta } from "emdash";
 import Base from "../layouts/Base.astro";
 import MarketingBlocks from "../components/MarketingBlocks.astro";
 
-const { entry: page, cacheHint } = await getEmDashEntry("pages", "pricing");
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "forfaits");
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
@@ -11,15 +11,15 @@ const pageContent = page?.data.content;
 const seo = page
 	? getSeoMeta(page, {
 			siteUrl: Astro.url.origin,
-			path: "/pricing",
-			defaultDescription: "Simple, transparent pricing. No hidden fees. No surprises.",
+			path: "/forfaits",
+			defaultDescription: "Des tarifs clairs et des forfaits tout compris pour apprendre à conduire en toute confiance.",
 		})
 	: null;
 ---
 
 <Base
-	title={seo?.title || "Pricing"}
-	pageTitle={page?.data.title || "Pricing"}
+	title={seo?.title || "Forfaits"}
+	pageTitle={page?.data.title || "Forfaits"}
 	description={seo?.description}
 	image={seo?.ogImage}
 	canonical={seo?.canonical}
@@ -33,11 +33,11 @@ const seo = page
 			</div>
 		) : (
 			<div class="empty-state">
-				<h1>Pricing</h1>
-				<p>Add pricing content in the admin.</p>
+				<h1>Forfaits</h1>
+				<p>Ajoutez les forfaits depuis l’administration.</p>
 					{Astro.locals.user && (
 						<a href="/_emdash/admin" class="btn btn-primary">
-							Open Admin
+							Adminnistration
 						</a>
 					)}
 			</div>
