@@ -1,0 +1,70 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+
+type GoogleReviewsBlock = Extract<
+	PageContentBlock,
+	{ _type: "marketing_google_reviews" }
+>;
+type Props = BlockComponentProps<GoogleReviewsBlock>;
+
+const { value } = Astro.props;
+const { anchor_id, headline } = value;
+---
+
+<section
+	class="google-reviews section"
+	id={anchor_id || undefined}
+>
+	<div class="container">
+		{headline && (
+			<header class="section-header">
+				<h2 class="section-headline">{headline}</h2>
+			</header>
+		)}
+
+		<div
+			class="google-reviews-widget"
+			role="region"
+			aria-label={headline || "Avis clients Google"}
+		>
+			<script
+				src="https://elfsightcdn.com/platform.js"
+				async
+				is:inline
+			></script>
+			<div
+				class="elfsight-app-9dc5896c-fa87-4cee-92e8-9b21a1564afa"
+				data-elfsight-app-lazy
+			></div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.google-reviews {
+		background: var(--color-surface);
+	}
+
+	.google-reviews .section-header {
+		text-align: center;
+		margin-bottom: var(--spacing-4xl);
+	}
+
+	.google-reviews-widget {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		margin-inline: auto;
+	}
+
+	.google-reviews-widget :global(.elfsight-app-9dc5896c-fa87-4cee-92e8-9b21a1564afa) {
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		.google-reviews .section-header {
+			margin-bottom: var(--spacing-2xl);
+		}
+	}
+</style>

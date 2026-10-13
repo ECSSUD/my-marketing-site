@@ -1,0 +1,66 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import Base from "../layouts/Base.astro";
+import MarketingBlocks from "../components/MarketingBlocks.astro";
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "qualiopi");
+
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const pageTitle = page?.data.title;
+const pageContent = page?.data.content;
+
+const seo = page
+	? getSeoMeta(page, {
+			siteUrl: Astro.url.origin,
+			path: "/qualiopi",
+			defaultDescription: "Les informations sur la certification Qualiopi.",
+		})
+	: null;
+---
+
+<Base
+	title={seo?.title || "Qualiopi"}
+	pageTitle={pageTitle || "Qualiopi"}
+	description={seo?.description || "Les informations sur la certification Qualiopi."}
+	image={seo?.ogImage}
+	canonical={seo?.canonical}
+	robots={seo?.robots}
+	content={page ? { collection: "pages", id: page.data.id, slug: page.id } : undefined}
+>
+	{
+		page && pageContent ? (
+			<div {...page.edit.content}>
+				<MarketingBlocks value={pageContent} />
+			</div>
+		) : (
+			<div class="empty-state">
+				<h1>Qualiopi</h1>
+				<p>Ajoutez du contenu à cette page depuis l'administration.</p>
+				{Astro.locals.user && (
+					<a href="/_emdash/admin" class="btn btn-primary">
+						Ouvrir l'administration
+					</a>
+				)}
+			</div>
+		)
+	}
+</Base>
+
+<style>
+	.empty-state {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: var(--spacing-5xl) var(--spacing-lg);
+		text-align: center;
+	}
+
+	.empty-state h1 {
+		margin-bottom: var(--spacing-md);
+	}
+
+	.empty-state p {
+		margin-bottom: var(--spacing-xl);
+		color: var(--color-muted);
+	}
+</style>

@@ -1,0 +1,191 @@
+
+---
+import { sanitizeHref } from "emdash";
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+
+type PrivacyBlock = Extract<
+	PageContentBlock,
+	{ _type: "marketing_privacy" }
+>;
+type Props = BlockComponentProps<PrivacyBlock>;
+
+const { value } = Astro.props;
+const {
+	anchor_id,
+	headline,
+	intro,
+	last_updated,
+	sections: rawSections,
+} = value;
+
+function escapeHtml(text: string): string {
+	return text
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+function linkify(text: string): string {
+	const linkPattern =
+		/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<>"]+)/g;
+
+	let result = "";
+	let lastIndex = 0;
+
+	for (const match of text.matchAll(linkPattern)) {
+		const index = match.index;
+
+		result += escapeHtml(text.slice(lastIndex, index));
+
+		const label = match[1];
+		const rawUrl = match[2] ?? match[3];
+		const url = sanitizeHref(rawUrl);
+
+		if (url) {
+			result += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label ?? rawUrl)}</a>`;
+		} else {
+			result += escapeHtml(match[0]);
+		}
+
+		lastIndex = index + match[0].length;
+	}
+
+	return result + escapeHtml(text.slice(lastIndex));
+}
+
+function toHtml(text: string): string {
+	return text
+		.replace(/\r\n/g, "\n")
+		.split("\n")
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map(
+			(line) =>
+				`<p class="privacy-paragraph">${linkify(line)}</p>`,
+		)
+		.join("\n");
+}
+
+const sections = (rawSections ?? []).map((section) => ({
+	...section,
+	html: toHtml(section.content ?? ""),
+}));
+---
+
+<section class="privacy section" id={anchor_id || undefined}>
+	<div class="container">
+		{(headline || intro || last_updated) && (
+			<header class="section-header privacy-header">
+				{headline && (
+					<h2 class="section-headline">{headline}</h2>
+				)}
+
+				{intro && (
+					<p class="section-subheadline privacy-intro">
+						{intro}
+					</p>
+				)}
+
+				{last_updated && (
+					<p class="privacy-updated">
+						Dernière mise à jour : {last_updated}
+					</p>
+				)}
+			</header>
+		)}
+
+		<div class="privacy-body">
+			{sections.map((section) => (
+				<article class="privacy-section">
+					<h3 class="privacy-section-title">
+						{section.title}
+					</h3>
+
+					<div set:html={section.html} />
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.privacy-header {
+		max-width: var(--max-width);
+		margin: 0 auto var(--spacing-3xl);
+	}
+
+	.privacy-intro {
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+
+	.privacy-updated {
+		margin-top: var(--spacing-md);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+	}
+
+	.privacy-body {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2xl);
+	}
+
+	.privacy-section {
+		padding-bottom: var(--spacing-2xl);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.privacy-section:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.privacy-section-title {
+		margin-bottom: var(--spacing-md);
+		font-size: var(--font-size-xl);
+		font-weight: var(--font-weight-heading);
+		line-height: var(--leading-tight);
+	}
+
+	:global(.privacy-paragraph) {
+		margin: 0;
+		font-size: var(--font-size-sm);
+		color: var(--color-text);
+		line-height: var(--leading-relaxed);
+		overflow-wrap: anywhere;
+	}
+
+	:global(.privacy-paragraph + .privacy-paragraph) {
+		margin-top: var(--spacing-md);
+	}
+
+	:global(.privacy-paragraph a) {
+		color: var(--color-brand);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		transition: color var(--transition-fast);
+	}
+
+	:global(.privacy-paragraph a:hover) {
+		color: var(--color-primary);
+	}
+
+	:global(.privacy-paragraph a:focus-visible) {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 3px;
+		border-radius: var(--radius-sm);
+	}
+
+	@media (max-width: 600px) {
+		.privacy-section-title {
+			font-size: var(--font-size-lg);
+		}
+	}
+</style>

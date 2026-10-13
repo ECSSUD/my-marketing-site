@@ -1,0 +1,155 @@
+---
+import { Icon } from "astro-iconset/components";
+import { sanitizeHref } from "emdash";
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+
+type DocumentBlock = Extract<
+	PageContentBlock,
+	{ _type: "marketing_documents" }
+>;
+type Props = BlockComponentProps<DocumentBlock>;
+
+const { value } = Astro.props;
+const { title, description, file } = value;
+
+const rawFile = typeof file === "string" ? file.trim() : "";
+const fileUrl = rawFile ? sanitizeHref(rawFile) : undefined;
+const fileName = rawFile
+	? rawFile.split("/").pop()?.split("?")[0]
+	: undefined;
+const documentTitle = title || fileName || "Sans titre";
+---
+
+<article class="document-card">
+	{fileUrl ? (
+		<a
+			href={fileUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="document-link"
+		>
+			<div class="icon-tile document-icon">
+				<Icon name="ph:file-pdf" aria-hidden="true" />
+			</div>
+
+			<h3 class="document-title">{documentTitle}</h3>
+
+			{description && (
+				<p class="document-description">{description}</p>
+			)}
+
+			<span class="document-action">
+				Consulter le document
+				<Icon name="ph:arrow-up-right" aria-hidden="true" />
+			</span>
+		</a>
+	) : (
+		<div class="document-placeholder">
+			<div class="icon-tile document-icon">
+				<Icon name="ph:file-pdf" aria-hidden="true" />
+			</div>
+
+			<h3 class="document-title">{documentTitle}</h3>
+
+			{description && (
+				<p class="document-description">{description}</p>
+			)}
+
+			<span class="document-filename">
+				Aucun fichier disponible
+			</span>
+		</div>
+	)}
+</article>
+
+<style>
+	.document-card {
+		height: 100%;
+		padding: var(--spacing-xl);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		transition:
+			transform var(--transition-base),
+			box-shadow var(--transition-base),
+			border-color var(--transition-base);
+	}
+
+	.document-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-lg);
+		border-color: var(--color-brand-soft);
+	}
+
+	.document-link {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--spacing-md);
+		height: 100%;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.document-icon {
+		margin-bottom: var(--spacing-sm);
+		color: var(--color-brand);
+	}
+
+	.document-title {
+		margin: 0;
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-heading);
+		line-height: var(--leading-tight);
+	}
+
+	.document-description {
+		margin: 0;
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-normal);
+		color: var(--color-muted);
+	}
+
+	.document-action {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-sm);
+		margin-top: auto;
+		padding-top: var(--spacing-md);
+		font-size: var(--font-size-sm);
+		font-weight: 600;
+		color: var(--color-brand);
+	}
+
+	.document-action :global(svg) {
+		width: 16px;
+		height: 16px;
+		transition: transform var(--transition-base);
+	}
+
+	.document-link:hover .document-action :global(svg) {
+		transform: translate(2px, -2px);
+	}
+
+	.document-link:focus-visible {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 4px;
+		border-radius: var(--radius);
+	}
+
+	.document-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--spacing-md);
+		height: 100%;
+	}
+
+	.document-filename {
+		margin-top: auto;
+		padding-top: var(--spacing-md);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+	}
+</style>

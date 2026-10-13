@@ -1,0 +1,228 @@
+---
+import { Icon } from "astro-iconset/components";
+import { sanitizeHref } from "emdash";
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+
+type QualiopiBlock = Extract<
+	PageContentBlock,
+	{ _type: "marketing_qualiopi" }
+>;
+type Props = BlockComponentProps<QualiopiBlock>;
+
+interface QualiopiDocument {
+	_key?: string;
+	title?: string;
+	description?: string;
+	file?: string;
+}
+
+const { value } = Astro.props;
+const { anchor_id, headline, subheadline } = value;
+
+const documents: QualiopiDocument[] = Array.isArray(value.documents)
+	? value.documents
+	: [];
+
+const preparedDocuments = documents.map((document) => {
+	const rawFile =
+		typeof document.file === "string" ? document.file.trim() : "";
+
+	const fileUrl = rawFile ? sanitizeHref(rawFile) : undefined;
+	const fileName = rawFile
+		? rawFile.split("/").pop()?.split("?")[0]
+		: undefined;
+
+	return {
+		...document,
+		fileUrl,
+		displayTitle: document.title || fileName || "Document Qualiopi",
+	};
+});
+---
+
+<section class="qualiopi section" id={anchor_id || undefined}>
+	<div class="container">
+		{(headline || subheadline) && (
+			<header class="section-header">
+				{headline && (
+					<h2 class="section-headline">{headline}</h2>
+				)}
+				{subheadline && (
+					<p class="section-subheadline">{subheadline}</p>
+				)}
+			</header>
+		)}
+
+		{preparedDocuments.length > 0 && (
+			<div class="qualiopi-grid">
+				{preparedDocuments.map((document) => (
+					<article class="qualiopi-card">
+						{document.fileUrl ? (
+							<a
+								href={document.fileUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="qualiopi-card-link"
+							>
+								<div class="icon-tile qualiopi-icon">
+									<Icon
+										name="ph:file-pdf"
+										aria-hidden="true"
+									/>
+								</div>
+
+								<h3 class="qualiopi-card-title">
+									{document.displayTitle}
+								</h3>
+
+								{document.description && (
+									<p class="qualiopi-card-description">
+										{document.description}
+									</p>
+								)}
+
+								<span class="qualiopi-card-action">
+									Consulter le document
+									<Icon
+										name="ph:arrow-up-right"
+										aria-hidden="true"
+									/>
+								</span>
+							</a>
+						) : (
+							<div class="qualiopi-card-placeholder">
+								<div class="icon-tile qualiopi-icon">
+									<Icon
+										name="ph:file-pdf"
+										aria-hidden="true"
+									/>
+								</div>
+
+								<h3 class="qualiopi-card-title">
+									{document.displayTitle}
+								</h3>
+
+								{document.description && (
+									<p class="qualiopi-card-description">
+										{document.description}
+									</p>
+								)}
+
+								<span class="qualiopi-card-status">
+									Aucun fichier disponible
+								</span>
+							</div>
+						)}
+					</article>
+				))}
+			</div>
+		)}
+	</div>
+</section>
+
+<style>
+	.qualiopi-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--spacing-xl);
+	}
+
+	.qualiopi-card {
+		height: 100%;
+		padding: var(--spacing-xl);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		transition:
+			transform var(--transition-base),
+			box-shadow var(--transition-base),
+			border-color var(--transition-base);
+	}
+
+	.qualiopi-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-lg);
+		border-color: var(--color-brand-soft);
+	}
+
+	.qualiopi-card-link,
+	.qualiopi-card-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--spacing-md);
+		height: 100%;
+	}
+
+	.qualiopi-card-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.qualiopi-icon {
+		margin-bottom: var(--spacing-sm);
+		color: var(--color-brand);
+	}
+
+	.qualiopi-card-title {
+		margin: 0;
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-heading);
+		line-height: var(--leading-tight);
+		overflow-wrap: anywhere;
+	}
+
+	.qualiopi-card-description {
+		margin: 0;
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-normal);
+		color: var(--color-muted);
+	}
+
+	.qualiopi-card-action {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-sm);
+		margin-top: auto;
+		padding-top: var(--spacing-md);
+		font-size: var(--font-size-sm);
+		font-weight: 600;
+		color: var(--color-brand);
+	}
+
+	.qualiopi-card-action :global(svg) {
+		width: 16px;
+		height: 16px;
+		transition: transform var(--transition-base);
+	}
+
+	.qualiopi-card-link:hover .qualiopi-card-action :global(svg) {
+		transform: translate(2px, -2px);
+	}
+
+	.qualiopi-card-link:focus-visible {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 4px;
+		border-radius: var(--radius);
+	}
+
+	.qualiopi-card-status {
+		margin-top: auto;
+		padding-top: var(--spacing-md);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+	}
+
+	@media (max-width: 900px) {
+		.qualiopi-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 600px) {
+		.qualiopi-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
