@@ -447,13 +447,18 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Features",
-					"url": "/#features"
+					"label": "Accueil",
+					"url": "/"
 				},
 				{
 					"type": "custom",
-					"label": "Pricing",
-					"url": "/pricing"
+					"label": "Forfaits",
+					"url": "/forfaits"
+				},
+								{
+					"type": "custom",
+					"label": "L'auto-école",
+					"url": "/auto-ecole"
 				},
 				{
 					"type": "custom",
@@ -493,21 +498,21 @@
 	"content": {
 		"pages": [
 			{
-				"id": "home",
-				"slug": "home",
+				"id": "Accueil",
+				"slug": "accueil",
 				"status": "published",
 				"data": {
-					"title": "Home",
+					"title": "Accueil",
 					"content": [
 						{
 							"_type": "marketing_hero",
 							"_version": 1,
 							"_key": "hero",
-							"headline": "Build products people actually want",
-							"subheadline": "The all-in-one platform for modern teams. Ship faster, collaborate better, and focus on what matters.",
-							"primary_cta_label": "See Pricing",
-							"primary_cta_url": "/pricing",
-							"secondary_cta_label": "Talk to Us",
+							"headline": "Votre réussite est notre priorité",
+							"subheadline": "Notre équipe de moniteurs expérimentés offre un enseignement personnalisé de qualité pour vous permettre d'aborder la route en toute confiance et d'obtenir votre permis de conduire rapidement.",
+							"primary_cta_label": "Découvrir nos forfaits",
+							"primary_cta_url": "/forfaits",
+							"secondary_cta_label": "Nous contacter",
 							"secondary_cta_url": "/contact"
 						},
 						{
@@ -515,7 +520,7 @@
 							"_version": 1,
 							"_key": "features",
 							"anchor_id": "features",
-							"headline": "Everything you need to ship",
+							"headline": "Pourquoi choisir l'École de Conduite Sud ?",
 							"subheadline": "Powerful features that help your team move faster without sacrificing quality.",
 							"features": [
 								{
@@ -830,31 +835,6 @@
 								{
 									"title": "Modification",
 									"content": "Cette politique peut être modifiée afin de tenir compte des évolutions légales ou techniques."
-								}
-							]
-						}
-					]
-				}
-			},
-			{
-				"id": "conditions-generales-de-vente",
-				"slug": "conditions-generales-de-vente",
-				"status": "published",
-				"data": {
-					"title": "Conditions générales de vente",
-					"content": [
-						{
-							"_type": "marketing_documents",
-							"_version": 1,
-							"_key": "cgv-document",
-							"anchor_id": "conditions-generales-de-vente",
-							"headline": "Conditions générales de vente",
-							"subheadline": "Consultez les conditions générales de vente applicables aux prestations d'ECS SUD.",
-							"documents": [
-								{
-									"title": "Conditions générales de vente (CGV)",
-									"description": "Document PDF — dernière mise à jour du 29 juin 2026.",
-									"file": "https://ecssud-old.ecssud-com.workers.dev/conditions-generales-de-vente.pdf"
 								}
 							]
 						}
