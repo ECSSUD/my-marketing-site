@@ -2,15 +2,190 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Marketing Starter",
-		"description": "A conversion-focused marketing site with landing pages",
-		"author": "EmDash"
+		"name": "ECS SUD",
+		"description": "Votre réussite est notre priorité",
+		"author": "ECS SUD"
 	},
 	"settings": {
-		"title": "Acme",
-		"tagline": "Build products people actually want"
+		"title": "ECS SUD",
+		"tagline": "Votre réussite est notre priorité"
 	},
 	"blockTypes": [
+		{
+			"slug": "marketing_document",
+			"label": "Document",
+			"description": "Une carte avec un titre, une description et un lien vers un document",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "title",
+							"label": "Titre du document",
+							"type": "string"
+						},
+						{
+							"slug": "description",
+							"label": "Description",
+							"type": "text"
+						},
+						{
+							"slug": "file",
+							"label": "URL du fichier",
+							"type": "url"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_google_reviews",
+			"label": "Avis Google",
+			"description": "Un widget présentant les avis clients Google",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "ID d'ancrage",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Titre",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_privacy",
+			"label": "Politique de confidentialité",
+			"description": "Une politique de confidentialité organisée en sections",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "ID d'ancrage",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Titre",
+							"type": "string"
+						},
+						{
+							"slug": "intro",
+							"label": "Introduction",
+							"type": "text"
+						},
+						{
+							"slug": "last_updated",
+							"label": "Dernière mise à jour",
+							"type": "string"
+						},
+						{
+							"slug": "sections",
+							"label": "Sections",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 30,
+								"subFields": [
+									{
+										"slug": "title",
+										"label": "Titre de la section",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "content",
+										"label": "Contenu",
+										"type": "text"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_qualiopi",
+			"label": "Qualiopi",
+			"description": "Une section présentant les documents relatifs à Qualiopi",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "ID d'ancrage",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Titre",
+							"type": "string"
+						},
+						{
+							"slug": "subheadline",
+							"label": "Sous-titre",
+							"type": "text"
+						},
+						{
+							"slug": "documents",
+							"label": "Documents Qualiopi",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 20,
+								"subFields": [
+									{
+										"slug": "title",
+										"label": "Titre du document",
+										"type": "string"
+									},
+									{
+										"slug": "description",
+										"label": "Description",
+										"type": "text"
+									},
+									{
+										"slug": "file",
+										"label": "URL du fichier",
+										"type": "url"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
 		{
 			"slug": "marketing_hero",
 			"label": "Hero",
@@ -156,7 +331,7 @@
 		{
 			"slug": "marketing_pricing",
 			"label": "Pricing",
-			"description": "A comparison of up to three pricing plans",
+			"description": "A comparison of up to four pricing plans",
 			"category": "Marketing",
 			"currentVersion": 1,
 			"versions": [
@@ -177,7 +352,7 @@
 							"required": true,
 							"validation": {
 								"minItems": 1,
-								"maxItems": 3,
+								"maxItems": 4,
 								"subFields": [
 									{ "slug": "name", "label": "Plan name", "type": "string", "required": true },
 									{ "slug": "price", "label": "Price", "type": "string", "required": true },
@@ -249,11 +424,15 @@
 					"type": "blocks",
 					"validation": {
 						"allowedTypes": [
-							"marketing_hero",
+							"marketing_documents",
+							"marketing_faq",
 							"marketing_features",
-							"marketing_testimonials",
+							"marketing_google_reviews",
+							"marketing_hero",
 							"marketing_pricing",
-							"marketing_faq"
+							"marketing_privacy",
+							"marketing_qualiopi",
+							"marketing_testimonials"
 						],
 						"maxItems": 20
 					}
@@ -404,20 +583,20 @@
 							"headline": "Frequently asked questions",
 							"items": [
 								{
-									"question": "How long does setup take?",
-									"answer": "Most teams are up and running in under 15 minutes. Our onboarding wizard guides you through connecting your existing tools and inviting your team."
+									"question": "Pourquoi choisir ECS SUD pour passer son permis à Marseille ?",
+									"answer": "ECS SUD propose un accompagnement personnalisé, des moniteurs expérimentés, des tarifs transparents et plusieurs formules pour le permis (boîte automatique, boîte manuelle et conduite accompagnée)."
 								},
 								{
-									"question": "Can I migrate from my current tool?",
-									"answer": "Yes. We have built-in importers for all major platforms, and our support team can help with custom migrations for larger teams."
+									"question": "Est-il possible d'obtenir son permis accéléré en moins d'un mois ?",
+									"answer": "Une formation intensive peut permettre à certains élèves d'effectuer rapidement leurs heures de conduite. Le délai dépend du niveau de départ, des disponibilités, de la progression et des places d'examen."
 								},
 								{
-									"question": "What kind of support do you offer?",
-									"answer": "All plans include email support with a 24-hour response time. Pro and Enterprise plans include priority support with dedicated account managers."
+									"question": "Que comprennent les forfaits ?",
+									"answer": "Les prestations varient selon la formule choisie. Consultez la page Forfaits pour comparer les heures de conduite, l'accès au code en ligne, l'évaluation de départ et les autres prestations incluses."
 								},
 								{
-									"question": "Is there a free trial?",
-									"answer": "Yes, all plans come with a 14-day free trial. No credit card required. You can upgrade, downgrade, or cancel at any time."
+									"question": "Peut-on payer en plusieurs fois ?",
+									"answer": "Les formules affichent un paiement possible en trois fois. Contactez notre équipe pour confirmer les modalités et choisir la formule adaptée à votre situation."
 								}
 							]
 						}
@@ -429,14 +608,14 @@
 				"slug": "pricing",
 				"status": "published",
 				"data": {
-					"title": "Pricing",
+					"title": "Forfaits",
 					"content": [
 						{
 							"_type": "marketing_hero",
 							"_version": 1,
 							"_key": "pricing-hero",
-							"headline": "Simple, transparent pricing",
-							"subheadline": "No hidden fees. No surprises. Start free and scale as you grow.",
+							"headline": "Nos formules",
+							"subheadline": "Des tarifs clairs et des forfaits tout compris pour apprendre à conduire en toute confiance et avancer à votre rythme.",
 							"centered": true
 						},
 						{
@@ -445,31 +624,41 @@
 							"_key": "pricing-plans",
 							"plans": [
 								{
-									"name": "Starter",
-									"price": "$0",
-									"period": "/month",
-									"description": "Perfect for trying things out",
-									"features": "Up to 3 team members\n5 projects\nBasic analytics\nCommunity support\n1GB storage",
-									"cta_label": "Contact Us",
-									"cta_url": "/contact"
+									"name": "Boîte automatique",
+									"price": "1 170 €",
+									"period": "ou 3 × 390 €",
+									"description": "",
+									"features": "13 heures de conduite\nFrais d'inscription\nAccès au code en ligne\nÉvaluation de départ\nFrais d'examen de conduite\nSuivi personnalisé",
+									"cta_label": "Inscription",
+									"cta_url": "/inscription"
 								},
 								{
-									"name": "Pro",
-									"price": "$29",
-									"period": "/user/month",
-									"description": "For growing teams",
-									"features": "Unlimited team members\nUnlimited projects\nAdvanced analytics\nPriority support\n100GB storage\nCustom integrations\nAPI access",
-									"cta_label": "Contact Us",
-									"cta_url": "/contact",
+									"name": "Boîte manuelle",
+									"price": "1 305 €",
+									"period": "ou 3 × 435 €",
+									"description": "",
+									"features": "20 heures de conduite\nFrais d'inscription\nAccès au code en ligne\nÉvaluation de départ\nFrais d'examen de conduite\nSuivi personnalisé",
+									"cta_label": "Inscription",
+									"cta_url": "/inscription",
 									"highlighted": true
 								},
 								{
-									"name": "Enterprise",
-									"price": "Custom",
-									"description": "For large organizations",
-									"features": "Everything in Pro\nDedicated support\nCustom contracts\nSLA guarantee\nUnlimited storage",
-									"cta_label": "Contact Sales",
-									"cta_url": "/contact"
+									"name": "Boîte automatique accéléré",
+									"price": "1 791 €",
+									"period": "ou 3 × 597 €",
+									"description": "",
+									"features": "13 heures de conduite\nFrais d'inscription\nAccès au code en ligne\nÉvaluation de départ\nFrais d'examen de conduite\nSuivi personnalisé",
+									"cta_label": "Inscription",
+									"cta_url": "/inscription"
+								},
+								{
+									"name": "Conduite accompagnée",
+									"price": "1 578 €",
+									"period": "ou 3 × 526 €",
+									"description": "",
+									"features": "20 heures de conduite\nFrais d'inscription\nAccès au code en ligne\nÉvaluation de départ\nFrais d'examen de conduite\n2 rendez-vous pédagogiques",
+									"cta_label": "Inscription",
+									"cta_url": "/inscription"
 								}
 							]
 						},
@@ -507,9 +696,167 @@
 							"_type": "marketing_hero",
 							"_version": 1,
 							"_key": "contact-hero",
-							"headline": "Get in touch",
-							"subheadline": "Have questions? Want a demo? We'd love to hear from you.",
+							"headline": "Contactez-nous",
+							"subheadline": "Une question ? Notre équipe sera ravie d'y répondre ! Remplissez le formulaire et notre équipe vous contactera rapidement.",
 							"centered": true
+						}
+					]
+				}
+			},
+			{
+				"id": "auto-ecole",
+				"slug": "auto-ecole",
+				"status": "published",
+				"data": {
+					"title": "L'Auto-école",
+					"content": [
+						{
+							"_type": "marketing_hero",
+							"_version": 1,
+							"_key": "auto-ecole-hero",
+							"anchor_id": "auto-ecole",
+							"headline": "L'Auto-école ECS SUD",
+							"subheadline": "Située à Marseille, ECS SUD vous accompagne dans votre apprentissage de la conduite avec des moniteurs expérimentés et des formules adaptées à votre projet.",
+							"primary_cta_label": "Découvrir nos forfaits",
+							"primary_cta_url": "/forfaits",
+							"secondary_cta_label": "Nous contacter",
+							"secondary_cta_url": "/contact",
+							"centered": true
+						}
+					]
+				}
+			},
+			{
+				"id": "qualiopi",
+				"slug": "qualiopi",
+				"status": "published",
+				"data": {
+					"title": "Qualiopi",
+					"content": [
+						{
+							"_type": "marketing_qualiopi",
+							"_version": 1,
+							"_key": "qualiopi-documents",
+							"anchor_id": "qualiopi",
+							"headline": "Qualiopi",
+							"subheadline": "Consultez les documents relatifs au bon fonctionnement de l'auto-école ECS SUD.",
+							"documents": [
+								{
+									"title": "Financements possibles",
+									"description": "Informations sur les dispositifs d'aide au financement du permis de conduire.",
+									"file": "https://ecssud.com/_emdash/api/media/file/01KWY10QDD3JEQ58CH0MJ17829.pdf"
+								},
+								{
+									"title": "Information AAC",
+									"description": "Informations sur l'apprentissage anticipé de la conduite.",
+									"file": "https://ecssud.com/_emdash/api/media/file/01KWY110EVY1SYHQ5EKVDBSQVW.pdf"
+								},
+								{
+									"title": "Information B78",
+									"description": "Informations sur le permis en boîte automatique.",
+									"file": "https://ecssud.com/_emdash/api/media/file/01KWY11ENBSJD8M2XA0C0QC507.pdf"
+								},
+								{
+									"title": "Règlement intérieur",
+									"description": "Consultez le règlement intérieur de l'établissement.",
+									"file": "https://ecssud.com/_emdash/api/media/file/01KWY11VFNSJ4END0YEYBN4BD7.pdf"
+								},
+								{
+									"title": "Information Code de la route",
+									"description": "Informations relatives à la formation théorique.",
+									"file": "https://ecssud.com/_emdash/api/media/file/01KWY11Q4WYF2M1HFHK0MQM7YW.pdf"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "politique-de-confidentialite",
+				"slug": "politique-de-confidentialite",
+				"status": "published",
+				"data": {
+					"title": "Politique de confidentialité",
+					"content": [
+						{
+							"_type": "marketing_privacy",
+							"_version": 1,
+							"_key": "politique-confidentialite",
+							"anchor_id": "confidentialite",
+							"headline": "Politique de confidentialité",
+							"intro": "La présente politique de confidentialité décrit la manière dont ECS SUD collecte, utilise, protège et traite les données personnelles des utilisateurs du site ecssud.com. ECS SUD s'engage à respecter le RGPD et la législation française applicable.",
+							"last_updated": "26 juin 2026",
+							"sections": [
+								{
+									"title": "Responsable du traitement",
+									"content": "Madame Inès HOGGAS\n102 Chemin de Gibbes – 13014 Marseille\nTéléphone : 04 12 34 05 62\nE-mail : contact@ecssud.com"
+								},
+								{
+									"title": "Les informations collectées",
+									"content": "Lorsque vous consultez le site, certaines données techniques sont collectées automatiquement (adresse IP, navigateur, type d'appareil, cookies, pages consultées).\nLorsque vous remplissez un formulaire, nous pouvons recueillir votre nom, prénom, téléphone, adresse e-mail et toute information nécessaire au traitement de votre demande."
+								},
+								{
+									"title": "Pourquoi traitons-nous vos données ?",
+									"content": "Vos données sont utilisées pour répondre à vos demandes, préparer votre inscription, assurer le suivi administratif et pédagogique, améliorer le site et respecter nos obligations légales. ECS SUD ne vend ni ne loue vos données personnelles."
+								},
+								{
+									"title": "Base juridique",
+									"content": "Les traitements reposent sur votre consentement, l'exécution d'un contrat ou de mesures précontractuelles, nos obligations légales et notre intérêt légitime."
+								},
+								{
+									"title": "Durée de conservation",
+									"content": "Les données sont conservées uniquement pendant la durée nécessaire aux finalités poursuivies puis supprimées ou archivées conformément à la réglementation."
+								},
+								{
+									"title": "Vos droits",
+									"content": "Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition, de portabilité et du droit de retirer votre consentement. Vous pouvez également saisir la CNIL."
+								},
+								{
+									"title": "Cookies",
+									"content": "Le site utilise des cookies techniques et éventuellement des cookies de mesure d'audience. Vous pouvez gérer vos préférences à tout moment."
+								},
+								{
+									"title": "Liens externes",
+									"content": "Le site peut contenir des liens vers des sites tiers. ECS SUD n'est pas responsable de leurs politiques de confidentialité."
+								},
+								{
+									"title": "Sécurité",
+									"content": "Des mesures techniques et organisationnelles sont mises en œuvre afin de protéger vos données personnelles contre tout accès non autorisé."
+								},
+								{
+									"title": "Divulgation légale",
+									"content": "Les données pourront être communiquées uniquement lorsque la loi l'impose ou sur réquisition d'une autorité compétente."
+								},
+								{
+									"title": "Modification",
+									"content": "Cette politique peut être modifiée afin de tenir compte des évolutions légales ou techniques."
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "conditions-generales-de-vente",
+				"slug": "conditions-generales-de-vente",
+				"status": "published",
+				"data": {
+					"title": "Conditions générales de vente",
+					"content": [
+						{
+							"_type": "marketing_documents",
+							"_version": 1,
+							"_key": "cgv-document",
+							"anchor_id": "conditions-generales-de-vente",
+							"headline": "Conditions générales de vente",
+							"subheadline": "Consultez les conditions générales de vente applicables aux prestations d'ECS SUD.",
+							"documents": [
+								{
+									"title": "Conditions générales de vente (CGV)",
+									"description": "Document PDF — dernière mise à jour du 29 juin 2026.",
+									"file": "https://ecssud-old.ecssud-com.workers.dev/conditions-generales-de-vente.pdf"
+								}
+							]
 						}
 					]
 				}
